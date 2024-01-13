@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -6,48 +7,89 @@
     <title>fieldbased.media</title>
 </head>
 <style>
-    html, body {
-        margin: 0;
-
-        > svg {
+    html {
+        >svg {
             position: absolute;
         }
+    }
+
+    body {
+        max-width: 800px;
+        margin: 0px auto;
+        padding: 0 10px;
+        font: 18px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        color: #333;
+        background: #fefefe;
+    }
+
+    h1,
+    h2,
+    h3 {
+        display: inline-block;
+        line-height: 1.2;
+
+        >a {
+            text-decoration: none;
+
+            &::after {
+                content: "#";
+            }
+        }
+    }
+
+    @media (prefers-color-scheme: dark) {
+        body {
+            color: #eee;
+            background: #0d1117;
+        }
+
+        a:link {
+            color: #58a6ff;
+        }
+
+        a:visited {
+            color: #8e96f0;
+        }
+    }
+
+    .info {
+        border: 2px solid #aaa;
+        border-radius: 10px;
+        padding: 20px;
+
+        &::before {
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            filter: grayscale(50%);
+            content: "\2139";
+        }
+    }
+
+    :root {
+        --frame-size: 100px;
     }
 
     .frame {
         margin: 0;
-        width: 200px;
-        height: 200px;
+        width: var(--frame-size);
+        height: var(--frame-size);
         display: flex;
         justify-content: center;
         align-items: center;
 
-        > p {
-            font-size: 200px;
-            font-weight: bolder;
-            font-family: sans-serif;
-        }
+        font-size: var(--frame-size);
+        font-weight: bolder;
+        font-family: sans-serif;
     }
 
     .frames {
+        display: inline-block;
         margin: 10px;
         position: relative;
-        height: 240px;
+        height: var(--frame-size);
+        width: var(--frame-size);
 
-        > .frame {
+        >.frame {
             position: absolute;
-        }
-
-        > .frame.bottom {
-            left: 100px;
-        }
-
-        > input {
-            position: absolute;
-            height: 20px;
-            width: 200px;
-            left: 100px;
-            top: 210px;
         }
     }
 
@@ -61,32 +103,37 @@
 
     .a {
         background-color: #dfa8a7;
-        > p::after {
+
+        &::after {
             content: 'A';
         }
     }
 
     .b {
         background-color: #6c88b9;
-        > p::after {
+
+        &::after {
             content: 'B';
         }
     }
 
     .c {
         background-color: #cad69c;
-        > p::after {
+
+        &::after {
             content: 'C';
         }
     }
 
     .d {
         background-color: #b4aed3;
-        > p::after {
+
+        &::after {
             content: 'D';
         }
     }
 </style>
+
 <body>
     <svg width="0" height="0">
         <defs>
@@ -118,24 +165,250 @@
         </defs>
     </svg>
 
+    <p></p>
+    <h1 id="telecine-interlace-wtf">Telecine? Interlace? WTF? <a href="#telecine-interlace-wtf"></a></h1>
+    <p>
+        This page is intended to give an overview of different types of field-based video content and how to
+        approach preparing that video content for viewing on a typical modern display. This page will not necessarily
+        cover every possible scenario that may be encountered, but should equip readers with a clearer understanding of
+        the underlying concepts.
+    </p>
+    <p>
+        Some terms may have slightly different technical definitions in different contexts, but they should have
+        consistent meanings within this page and generally represent common usage.
+    </p>
+    <h2 id="what-is-a-video">What is a video? (Fields, Frames, and Framerate) <a href="#what-is-a-video"></a></h2>
+    <p>
+        A video is just a series of pictures displayed in sequence at specific intervals. Each picture that is displayed
+        is a frame, and how quickly these pictures are displayed is known as the framerate.
+        The framerate of a video is usually measured in frames per second (fps).
+    </p>
+    <p>
+        If you go out and buy a DVD, put in your computer, and play the video in a software player (MPC-HC, mpv, VLC,
+        etc) you will be presented with a series of frames. Each frame may or may not be made
+        up of fields and that's what distinguishes frame-based and
+        field-based content.
+    </p>
+    <h2 id="frame-based-content">Frame-based Content <a href="#frame-based-content"></a></h2>
+    <p>
+        Frame-based content is very simple. It is just video content where each frame is a
+        complete picture on its own. There are no fields contained in the frame. Completely
+        straightforward, "normal" video content that can be viewed easily on modern displays.
+    </p>
     <div class="frames">
-        <div class="frame a top"><p></p></div>
-        <div class="frame a bottom"><p></p></div>
-        <input autocomplete="off" type="range" min="0" max="200" value="100" oninput="this.previousElementSibling.style.left = `${this.value}px`"></input>
+        <div class="frame a"></div>
     </div>
     <div class="frames">
-        <div class="frame b top"><p></p></div>
-        <div class="frame b bottom"><p></p></div>
-        <input autocomplete="off" type="range" min="0" max="200" value="100" oninput="this.previousElementSibling.style.left = `${this.value}px`"></input>
+        <div class="frame b"></div>
     </div>
     <div class="frames">
-        <div class="frame c top"><p></p></div>
-        <div class="frame c bottom"><p></p></div>
-        <input autocomplete="off" type="range" min="0" max="200" value="100" oninput="this.previousElementSibling.style.left = `${this.value}px`"></input>
+        <div class="frame c"></div>
     </div>
     <div class="frames">
-        <div class="frame d top"><p></p></div>
-        <div class="frame d bottom"><p></p></div>
-        <input autocomplete="off" type="range" min="0" max="200" value="100" oninput="this.previousElementSibling.style.left = `${this.value}px`"></input>
+        <div class="frame d"></div>
     </div>
+    <p class="info">
+        Frame-based content is also commonly known as progressive content.
+        That term is a little nuanced, so it won't be explored or used in this page. But
+        it may be used in other discussions of these topics, and often you can treat the
+        terms as synonyms.
+    </p>
+    <p>
+        The goal of this page is to explain how to obtain frame-based content from field-based
+        content.
+    </p>
+    <h2 id="field-based-content">Field-based Content <a href="#field-based-content"></a></h2>
+    <p>Field-based content is a little more complicated. Each frame of the video content
+        contains two fields. Each field is part of a picture and has the same width as the
+        frame which contains it, but has only half the height. Instead of being stored as two half-height
+        pictures stacked on top of eachother, they are stored in alternating rows.
+    </p>
+    <div class="frames">
+        <div class="frame a top"></div>
+        <div class="frame b bottom"></div>
+    </div>
+    <div class="frames">
+        <div class="frame c top"></div>
+        <div class="frame d bottom"></div>
+    </div>
+    <div class="frames">
+        <div class="frame a top"></div>
+        <div class="frame b bottom"></div>
+    </div>
+    <div class="frames">
+        <div class="frame c top"></div>
+        <div class="frame d bottom"></div>
+    </div>
+    <p>
+        Because of this storage method the fields are referred to as either even and
+        odd, or top and bottom, respectively and interchangably.
+    </p>
+    <p>
+        This storage method also makes the field-based nature of the video most apparent when there is high
+        motion. Since the top and bottom fields won't be displaying the same point in time, the picture will appear
+        to be combed. The presence of this artifact is a clear indication that a video is
+        field-based.
+    </p>
+    <p class="info">
+        An unfortunately common misconception is that the presence of combing
+        artifacts always means that the video is interlaced. It is a major goal of
+        this page to correct this misunderstanding. If you take only one thing from this
+        page know that you should NOT always de-interlace a video to "fix" combing.
+        Continue reading to understand why.
+    </p>
+    <p>
+        With the general understanding of fields and frames established, let's move on to
+        what common types of field-based content are.
+    </p>
+    <h2 id="interlaced-content">Interlaced Content <a href="#interlaced-content"></a></h2>
+    <p></p>
+    <h3 id="what-is-interlaced-content">What is interlaced content? <a href="#what-is-interlaced-content"></a></h3>
+    <p>
+        Interlaced content is the most straightforward type of field-based content, but not
+        always the most common. It is any field-based video content where each field stores a
+        complete picture.
+    </p>
+    <h3 id="why-would-video-be-interlaced">Why would video be interlaced? <a href="#why-would-video-be-interlaced"></a></h3>
+    <p>
+        An interlaced video represents twice as many points in time as a frame-based video of the same
+        framerate, but only represents half of the vertical picture of an equivalent frame-based
+        video at each point in time. Essentially the method trades the spatial resolution of a video for temporal
+        resolution. That is to say that an interlaced video is able to capture smoother motion than the
+        framerate would otherwise allow, but is worse at capturing the details of each frame.
+    </p>
+    <h3 id="what-to-do-with-an-interlaced-video">What to do with an interlaced video? <a href="#what-to-do-with-an-interlaced-video"></a></h3>
+    <p>
+        De-interlacing is the process of turning the sequence of fields in a video into a new
+        sequence of frames. In its simplest form this separates each field and then doubles their height.
+        The result is an output frame-based video with the same width and height, but double the framerate
+        of the field-based input video.
+    </p>
+    <h2 id="telecined-content">Telecined Content <a href="#telecined-content"></a></h2>
+    <p></p>
+    <h3 id="what-is-telecined-content">What is telecined content? <a href="#what-is-telecined-content"></a></h3>
+    <p>
+        Telecined content is a more complicated type of field-based content. It is
+        field-based video content where each field represents only half of a complete picture,
+        and which contains some duplicate fields. That's intentionally a little vague because there are
+        several different ways a video could hypothetically be telecined.
+    </p>
+    <p>
+        To keep things more clear this page will focus only on what is likely the most common type of
+        telecining which is known as a "2:3 pulldown" (or "3:2 pulldown"). This
+        specific type of telecining means that for every group of 10 fields (5
+        field-based frames) there are 4 unique pictures (4 frame-based
+        frames). This grouping of 10 fields is referred to as a cycle. It
+        contains an integer number (5) of field-based frames and integer multiple (2) of the pulldown's
+        length (2 + 3 = 5).
+    </p>
+    <p class="info">
+        The #:# naming convention denotes how many output fields of an input frame occur in a
+        row. So if we consider input frames A B C D then a single cycle of a 2:3 pulldown would have 2
+        fields from A, then 3 fields from B, 2 fields from C, and 3
+        fields from D; A A B B B C C D D D.
+    </p>
+    <div class="frames">
+        <div class="frame a top"></div>
+        <div class="frame a bottom"></div>
+    </div>
+    <div class="frames">
+        <div class="frame b top"></div>
+        <div class="frame b bottom"></div>
+    </div>
+    <div class="frames">
+        <div class="frame b top"></div>
+        <div class="frame c bottom"></div>
+    </div>
+    <div class="frames">
+        <div class="frame c top"></div>
+        <div class="frame d bottom"></div>
+    </div>
+    <div class="frames">
+        <div class="frame d top"></div>
+        <div class="frame d bottom"></div>
+    </div>
+    <h3 id="why-would-video-be-telecined">Why would video be telecined? <a href="#why-would-video-be-telecined"></a></h3>
+    <p>
+        The benefit is less obvious here, but ultimately comes down to differences between production and distribution
+        formats. If a company produces a video at 24fps and wants to distribute it on TV or home video which only
+        support 30fps then they need some method of converting the content, and telecining is the most common method.
+    </p>
+    <p>
+        There is no benefit to telecining a video if its original framerate is supported by its
+        distribution channel. For example there is basically never a need to telecine a video for an
+        internet streaming platform as they support any common framerate. (Though content originally produced for home video
+        that is now hosted on a streaming service may still be telecined)
+    </p>
+    <h3 id="what-to-do-with-telecined-video">What to do with telecined video? <a href="#what-to-do-with-telecined-video"></a></h3>
+    <p>
+        Inverse Telecine (aka IVTC) is the process of undoing a telecine to obtain
+        a frame-based video. There are some nuances to different methods, but broadly this consists of two
+        logical operations which may happen separately or in one pass: field matching and
+        decimation. We will examine these two operations separately first.</p>
+    <p>
+        If we consider a frame-based video A B C D that has been telecined as
+    </p>
+    <pre>A  B  B' C  D<br/>A  B  C  D  D'</pre>
+    <p>
+        we can arrive at our original frames by considering each top field and matching it with a bottom
+        field. For example
+    </p>
+    <pre>A  B  B' C  D<br/>|  | /  /   |<br/>A  B  C  D  D'</pre>
+    <p>
+        Which arrives at
+    </p>
+    <pre>A B B C D</pre>
+    <p>
+        Note that we could have selected either bottom field to match with the top field of D. If the telecine was
+        performed corectly then it doesn't matter which one is used.
+    </p>
+    <p>
+        Alternatively we could arrive at the original frames by considering each bottom field and matching
+        it with a top field. For example
+    </p>
+    <pre>A  B  B' C  D<br/>|  |    /  /|<br/>A  B  C  D  D'</pre>
+    <p>
+        Which arrives at
+    </p>
+    <pre>A B C D D</pre>
+    <p>
+        And in this case we could have selected either top field to match with the bottom field of B. Again it
+        shouldn't matter in the ideal case.
+    </p>
+    <p>
+        Whether we match by top or bottom doesn't really matter, we still have all the original input frames present
+        with one duplicate. The only difference is whether it's a duplicate of B or D.
+    </p>
+    <p>
+        Decimation then simply drops the duplicate frame to arrive at our original A B C D.
+    </p>
+    <p>
+        Automated IVTC will generally perform these two steps separately and will use heuristics for both steps. How well
+        those heuristics perform determines how well the content is IVTC'd.
+    </p>
+    <p>
+        Generally the heuristic for field matching is how "combed" a possible match is. If you match fields from
+        different frames you expect the result to be more combed than if you matched fields from the same frame.
+    </p>
+    <p>
+        For decimation the heuristic is generally similarity to a neighboring frame. Ideally there should be one pair
+        that matches exactly, but for various reasons there might not be an <em>exact</em> match. Regardless dropping
+        one frame from the pair that is closest will restore the correct frame count.
+    </p>
+    <p>
+        However these heuristics are not infailable, and consider if the wrong field is matched. In this case you may
+        complete field matching with a combed frame, for example A B BC C D. If you decimate the most similar frames C
+        and D might be closer than B or C is to the combed BC. So the ultimate output may be A B BC D which now contains
+        a combed frame and may look "jerky" or "juddery" in motion because C is half missing.
+    </p>
+    <p>
+        Manual IVTC then allows you to make field matching and decimation decisions to correct situations where the
+        heuristics failed. You can still keep the steps separated when you manually IVTC, but there's little benefit
+        to a human operator in keeping the steps separated. Instead you can consider performing both operations
+        simultaneously. For example
+    </p>
+    <pre>A  B  B' C  D<br/>|  |    /   |<br/>A  B  C  D  D'</pre>
+    <p>
+        Produces A B C D directly.
+    </p>
 </body>
